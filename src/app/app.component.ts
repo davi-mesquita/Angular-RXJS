@@ -63,6 +63,7 @@ export class AppComponent implements OnInit {
         setTimeout(() => {
           subscriber.next("Resposta com delay");
         }, 1000);
+        subscriber.complete();
       } else {
         subscriber.error("Ops! Deu erro !");
       }
@@ -70,13 +71,27 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //Criando um promise e tratando o resultado e o erro
+
     // this.minhaPromise('Davi')
     // .then(result => console.log(result))
     // .catch(erro => console.log(erro))
 
-    this.minhaObservable("")
-    .subscribe(
-    result => console.log(result),
-    error => console.log(error));
+    //Criando um Observable e tratando de maneira simples o resultado e o erro
+
+    // this.minhaObservable("")
+    // .subscribe(
+    // result => console.log(result),
+    // error => console.log(error));
+
+    //Criando um Observer para estruturar de instruções para trabalhar com o subscribe do Observable
+    const observer = {
+      next: valor => console.log('Next: ',valor),
+      error: erro => console.log('Erro: ', erro),
+      complete: () => console.log('Fim')
+    }
+    //Chamando minha função Observable e utilizando do Observer  
+    const obs = this.minhaObservable('Eduardo');
+    obs.subscribe(observer)
   }
 }
